@@ -1,0 +1,22 @@
+# The URL the site will be built for
+base_url = "https://example.com"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = false
+theme = "lekhz"
+
+[markdown]
+
+
+[extra]
+lekhz_name = "Munzir Mohd Al Attas"
+lekhz_about = "Computer Science graduate, University of Manchester, UK"
+lekhz_email = "munzirmohdalattas@gmail.com"
+lekhz_post_limit = 3
+lekhz_profiles = [
+    { name = "GitHub", url = "https://github.com/munz0312" },
+    { name = "LinkedIn", url = "https://www.linkedin.com/in/munzir-mohd-al-attas-b64a23216/" },
+]
