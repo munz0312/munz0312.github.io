@@ -8,6 +8,9 @@ compile_sass = true
 build_search_index = false
 theme = "lekhz"
 
+# Generate an Atom feed (atom.xml) — the theme's "RSS feed" link points here
+generate_feeds = true
+
 [markdown]
 
 

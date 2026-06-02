@@ -1,5 +1,5 @@
 +++
-title= "Part 1 - Setup and Serial Output"
+title= "Part 1"
 date= "2026-06-01"
 +++
 
@@ -9,7 +9,7 @@ To start off this OS project, I followed some tutorials on the OSDev wiki. This 
 - A [template](https://wiki.osdev.org/Meaty_Skeleton) which organised the files of the project (including Makefiles and convenience shell scripts)
 - A black screen that prints "Hello, kernel World!"
 
-The template gave me a kernel that boots via GRUB using the Multiboot standard, a small libc (compiled as `libk` for kernel use), and a VGA text-mode terminal driver. The build system uses a cross-compiler (`i686-elf-gcc`) with a sysroot, so the kernel and libc are built in a freestanding environment -- no host OS headers or libraries.
+The template gave me a kernel that boots via GRUB using the Multiboot standard, a small libc (compiled as `libk` for kernel use), and a VGA text-mode terminal driver.
 
 ## Serial Output
 
@@ -18,7 +18,7 @@ maps the emulated serial port to the host's stdin/stdout.
 
 Before we can use the serial port, we need port I/O. On x86, hardware is accessed through I/O ports using the `in` and `out` instructions. I used some wrapper 
 functions around inline assembly for `inb` (read a byte from a port) and `outb` (write a byte to a port).
-(see [this](https://wiki.osdev.org/Inline_Assembly/Examples#I/O_access))
+(See [this](https://wiki.osdev.org/Inline_Assembly/Examples#I/O_access))
 
 Initialising the serial port involves writing a specific sequence of bytes to configure the serial communication.
 With the base address of COM1 `0x3F8`, we can configure several settings by adding an offset to it in order to access the registers of the UART chip.
@@ -28,5 +28,13 @@ After initialisation, sending a character is just a matter of waiting for the tr
 
 Now I could call `write_serial_string("Hello, host!\n")` from my kernel and see it appear in my terminal.
 
+## Global Descriptor Table
+
+The Global Descriptor Table (GDT) is a data structure on x86 that contains information about memory segments - the base and limits of each segment. However, 
+I don't plan on using segmentation to separate memory into protected areas, instead I will be using paging.
+
+
 ## Sources
 [Serial Ports](https://wiki.osdev.org/Serial_Ports)
+[GCC Cross-Compiler](http://wiki.osdev.org/GCC_Cross-Compiler)
+[Meaty Skeleton](https://wiki.osdev.org/Meaty_Skeleton)
