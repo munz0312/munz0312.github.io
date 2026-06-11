@@ -33,8 +33,26 @@ Now I could call `write_serial_string("Hello, host!\n")` from my kernel and see 
 The Global Descriptor Table (GDT) is a data structure on x86 that contains information about memory segments - the base and limits of each segment. However, 
 I don't plan on using segmentation to separate memory into protected areas, instead I will be using paging.
 
+So, after following this [tutorial](https://wiki.osdev.org/GDT_Tutorial), I had 3 items in the GDT: the null descriptor, kernel mode code segment and kernel
+mode data segment. Give that I'm not using segmentation to separate memory, the base and limits for each segment were `0` and `0xFFFFF` respectively. Then, set
+the granularity flag so that the limit is in 4KB blocks which is our page size. Therefore we have `0xFFFFF * 4KB = 4GB` addressable space.
+
+I defined the table in C (`gdt.c`) and loaded its address into the GDT register with the `lgdt` assembly instruction.
+
+## Interrupt Descriptor Table
+
+Interrupts, put simply, are a way of alerting the CPU that something needs attention. The IDT tells the CPU of the various routines to be run on the different
+kinds of interrupts. Setting it up involves defining a bunch of IDT entries, called gates, then defining what should be done for each interrupt.
+
+In my code, I defined two assembly macros for the two different cases where an interrupt does or doesn't push an error code onto the stack. Then, I push the
+interrupt number onto the stack to be used by an external C function `isr_dispatch` defined in (`idt.c`) that does the handling. These macros are then used 
+to generate a bunch of the interrupt stubs (`isr_stubs.S`). One of the things I wanted to do with interrupts was keyboard support, but this requires more setup
+(Programmable Interrupt Controller).
+
 
 ## Sources
 [Serial Ports](https://wiki.osdev.org/Serial_Ports)
+
 [GCC Cross-Compiler](http://wiki.osdev.org/GCC_Cross-Compiler)
+
 [Meaty Skeleton](https://wiki.osdev.org/Meaty_Skeleton)
