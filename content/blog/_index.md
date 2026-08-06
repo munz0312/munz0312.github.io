@@ -69,4 +69,4 @@ generate_feeds = false
 [extra]
 +++
 
-A series of posts about OS development
+A series of posts about OS development - not guaranteed to be comprehensive, just the bits I find interesting enough to write about.
