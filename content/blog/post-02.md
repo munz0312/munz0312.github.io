@@ -38,11 +38,11 @@ for(i = 0; i < mbd->mmap_length; i += sizeof(multiboot_memory_map_t))
 ```
 
 Now I have access to each section of memory, I can divide it up into 4096-byte page frames. To track the status of these page frames, I define a bitmap where a page is used if its corresponding bit is set.
-The bitmap is initialised by setting all bits, then whilst iterating over the sections of availiable memory, we can clear the bits to mark it as available.
+The bitmap is initialised by setting all bits, then whilst iterating over the sections of available memory, we can clear the bits to mark it as available.
 
 ## Virtual Memory & Paging
 
-Virtual memory is an abstraction over the physically availiable memory. Every process that runs is under the illusion of having a fully available,  addressable memory space. This is known as its virtual address space.
+Virtual memory is an abstraction over the physically available memory. Every process that runs is under the illusion of having a fully available,  addressable memory space. This is known as its virtual address space.
 Page tables are data structures that reside in memory which contain virtual to physical memory mappings.
 
 In my operating system, I implement 2 levels of page tables. The top level page table, which I will refer to as the page directory, contains page directory entries which each point to a page table.
